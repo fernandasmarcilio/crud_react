@@ -1,17 +1,17 @@
 import React from 'react';
 import { Toolbar, IconButton, Typography, InputBase } from '@material-ui/core';
-import { Search, AccountCircle} from '@material-ui/icons';
+import { Search, AccountCircle } from '@material-ui/icons';
 
 import useStyles from './styles';
 
-function Header({title, inputPlaceholder, user, searchOnChange}) {
+function Header({ title, inputPlaceholder, user, handleSearch }) {
   const classes = useStyles();
 
   return (
     <div className={classes.headerContainer}>
       <Toolbar>
         <Typography className={classes.title} variant="h4" noWrap>
-        {title}
+          {title}
         </Typography>
         <div className={classes.searchContainer}>
           <div className={classes.searchIcon}>
@@ -23,15 +23,15 @@ function Header({title, inputPlaceholder, user, searchOnChange}) {
               root: classes.inputRoot,
             }}
             inputProps={{ 'aria-label': 'search' }}
-            type="search" 
-            onChange={searchOnChange}
+            type="search"
+            onChange={handleSearch}
           />
         </div>
         <div className={classes.userContainer}>
           <IconButton
-            onClick={() =>{}}
+            onClick={() => { }}
             color="inherit"
-            >
+          >
             <AccountCircle fontSize="large" />
           </IconButton>
           <div className="userIf">

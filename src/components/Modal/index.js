@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 
-function Modal({ open, handleClose, title, textPrimaryButton, children }) {
+function Modal({ open, handleClose, handleConfirm, title, textPrimaryButton, children }) {
   return (
     <Dialog
       open={open}
@@ -23,7 +23,7 @@ function Modal({ open, handleClose, title, textPrimaryButton, children }) {
         <Button onClick={handleClose} color="secondary">
           CANCELAR
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleConfirm} color="primary">
           {textPrimaryButton.toUpperCase()}
         </Button>
       </DialogActions>

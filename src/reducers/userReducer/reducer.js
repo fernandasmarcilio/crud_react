@@ -17,6 +17,21 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         filteredUsers: filteredUserArray,
       }
+    case ACTIONS.setUserData:
+      return {
+        ...state,
+        userData: action.payload,
+      }
+    case ACTIONS.resetUserData:
+      return {
+        ...state,
+        userData: INITIAL_STATE.userData,
+      }
+    case ACTIONS.usersHasModified:
+      return {
+        ...state,
+        usersHasModified: action.payload,
+      }
     default:
       return state
   }

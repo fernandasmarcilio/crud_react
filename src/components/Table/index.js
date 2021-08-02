@@ -5,12 +5,12 @@ import TableContent from './TableContent';
 
 import useStyles from './styles';
 
-function Table({title, data}) {
+function Table({ title, data, handleOpenModal }) {
   const classes = useStyles();
 
   return (
     <>
-      <TableHeader title={title} />
+      <TableHeader title={title} handleOpenModal={handleOpenModal} />
       <div className={classes.tableBody}>
         <TableContent data={data} />
       </div>
