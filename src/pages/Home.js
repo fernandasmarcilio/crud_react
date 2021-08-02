@@ -20,6 +20,9 @@ function Home() {
 
   const handleOpenModal = () => {
     setOpenModal(!openModal);
+    if (!openModal) {
+      dispatch({ type: ACTIONS.resetUserData });
+    }
   };
 
   const handleSearchUser = (event) => {
@@ -38,16 +41,38 @@ function Home() {
     dispatch({ type: ACTIONS.setUserData, payload: data });
   }
 
+  const handleEditUser = ({ userId }) => {
+    api.get(`usuarios/${userId}`).then(response => {
+      dispatch({ type: ACTIONS.setUserData, payload: response.data });
+    })
+    handleOpenModal();
+  };
+
+
+  const handleDeleteUser = ({ userId }) => {
+    api.delete(`usuarios/${userId}`).then(() => {
+      handleGetUsers();
+    })
+  };
+
+
   const handleGetUsers = () => {
     api.get('usuarios').then(response => {
       dispatch({ type: ACTIONS.setUsers, payload: response.data });
     })
   }
 
-  const handlePostUser = () => {
-    api.post('usuarios', userData).then(() => {
-      handleGetUsers();
-    });
+  const handleUserData = () => {
+    if (userData.id) {
+      api.put(`usuarios/${userData.id}`, userData).then(() => {
+        handleGetUsers();
+      });
+    } else {
+      api.post('usuarios', userData).then(() => {
+        handleGetUsers();
+      });
+    }
+
     dispatch({ type: ACTIONS.usersHasModified, payload: true });
   }
 
@@ -78,13 +103,15 @@ function Home() {
         title="Usuários"
         data={filteredUsers || users}
         handleOpenModal={handleOpenModal}
+        handleEdit={handleEditUser}
+        handleDelete={handleDeleteUser}
       />
       <Modal
         title="Cadastro de usuário"
         open={openModal}
-        handleConfirm={handlePostUser}
+        handleConfirm={handleUserData}
         handleClose={handleOpenModal}
-        textPrimaryButton="Cadastrar"
+        textPrimaryButton={userData.id ? "Editar" : "Cadastrar"}
       >
         <UserForm
           handleInputChange={handleInputChange}

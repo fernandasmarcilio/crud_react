@@ -7,10 +7,27 @@ import {
   TableHead,
   TableRow,
   Paper,
+  IconButton,
 } from '@material-ui/core';
+import { Edit, Delete } from '@material-ui/icons';
 
-function TableContent({ data }) {
+function TableContent({ data, handleEdit, handleDelete }) {
   const titleData = ['Usuário', 'Tipo de usuário', 'Usuário ativo'];
+
+  const RenderActions = (userId) => (
+    <>
+      <IconButton
+        onClick={() => handleEdit(userId)}
+      >
+        <Edit fontSize="small" />
+      </IconButton>
+      <IconButton
+        onClick={() => handleDelete(userId)}
+      >
+        <Delete fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   return (
     <TableContainer component={Paper}>
@@ -24,14 +41,16 @@ function TableContent({ data }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.map((row) => (
-            <TableRow key={row.id} hover>
+          {data && data.map((user) => (
+            <TableRow key={user.id} hover>
               <TableCell component="th" scope="row">
-                {`${row.nome} ${row.sobrenome}`}
+                {`${user.nome} ${user.sobrenome}`}
               </TableCell>
-              <TableCell align="right">{row.tipoUsuario}</TableCell>
-              <TableCell align="right">{row.ativo ? "Sim" : "Não"}</TableCell>
-              <TableCell align="right">Ações</TableCell>
+              <TableCell align="right">{user.tipoUsuario}</TableCell>
+              <TableCell align="right">{user.ativo ? "Sim" : "Não"}</TableCell>
+              <TableCell align="right">
+                <RenderActions userId={user.id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

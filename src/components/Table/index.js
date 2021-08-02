@@ -5,14 +5,14 @@ import TableContent from './TableContent';
 
 import useStyles from './styles';
 
-function Table({ title, data, handleOpenModal }) {
+function Table({ title, data, handleOpenModal, handleEdit, handleDelete }) {
   const classes = useStyles();
 
   return (
     <>
       <TableHeader title={title} handleOpenModal={handleOpenModal} />
       <div className={classes.tableBody}>
-        <TableContent data={data} />
+        <TableContent data={data} handleEdit={handleEdit} handleDelete={handleDelete} />
       </div>
     </>
   );
