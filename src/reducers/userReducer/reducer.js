@@ -32,6 +32,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         usersHasModified: action.payload,
       }
+    case ACTIONS.setUserLogged:
+      return {
+        ...state,
+        user: action.payload,
+        userIsAdmin: action.payload.tipoUsuario === 'Administrador',
+      }
     default:
       return state
   }

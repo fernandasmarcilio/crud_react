@@ -10,6 +10,15 @@ const INITIAL_STATE = {
     email: '',
     senha: '',
   },
+  user: {
+    ativo: false,
+    tipoUsuario: '',
+    nome: '',
+    sobrenome: '',
+    email: '',
+    senha: '',
+  },
+  userIsAdmin: false,
 };
 
 export default INITIAL_STATE;

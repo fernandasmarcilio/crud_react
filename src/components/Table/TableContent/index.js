@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 
-function TableContent({ data, handleEdit, handleDelete }) {
+function TableContent({ data, handleEdit, handleDelete, isAdmin }) {
   const titleData = ['Usuário', 'Tipo de usuário', 'Usuário ativo'];
 
   const RenderActions = (userId) => (
@@ -37,7 +37,8 @@ function TableContent({ data, handleEdit, handleDelete }) {
             {titleData.map((title, index) => (
               <TableCell key={title} align={index > 0 ? "right" : "left"}>{title}</TableCell>
             ))}
-            <TableCell key="Ações" align="right">Ações</TableCell>
+            {isAdmin && (<TableCell key="Ações" align="right">Ações</TableCell>)}
+
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,7 +50,7 @@ function TableContent({ data, handleEdit, handleDelete }) {
               <TableCell align="right">{user.tipoUsuario}</TableCell>
               <TableCell align="right">{user.ativo ? "Sim" : "Não"}</TableCell>
               <TableCell align="right">
-                <RenderActions userId={user.id} />
+                {isAdmin && (<RenderActions userId={user.id} />)}
               </TableCell>
             </TableRow>
           ))}

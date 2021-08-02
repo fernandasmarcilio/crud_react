@@ -1,5 +1,8 @@
 import React, { useEffect, useReducer, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import api from '../services/api';
+import { getToken, logout } from '../services/auth';
 
 import { INITIAL_STATE, ACTIONS, userReducer } from '../reducers/userReducer';
 
@@ -9,12 +12,14 @@ import Modal from '../components/Modal';
 import UserForm from '../components/UserForm';
 
 function Home() {
+  const history = useHistory();
+
   const [state, dispatch] = useReducer(
     userReducer,
     INITIAL_STATE,
   );
 
-  const { users, filteredUsers, userData, usersHasModified } = state;
+  const { users, filteredUsers, userData, usersHasModified, user, userIsAdmin } = state;
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -76,8 +81,21 @@ function Home() {
     dispatch({ type: ACTIONS.usersHasModified, payload: true });
   }
 
+  const getDataLoggedUser = () => {
+    const userId = getToken();
+    api.get(`usuarios/${userId}`).then(response => {
+      dispatch({ type: ACTIONS.setUserLogged, payload: response.data });
+    })
+  }
+
+  const handleLogout = () => {
+    logout();
+    history.push("/login");
+  }
+
   useEffect(() => {
     handleGetUsers();
+    getDataLoggedUser();
   }, []);
 
   useEffect(() => {
@@ -93,11 +111,9 @@ function Home() {
       <Header
         title="Gerenciar usuários"
         inputPlaceholder="Buscar por usuário"
-        user={{
-          name: 'Machado de Assis',
-          type: 'Admin'
-        }}
+        user={user}
         handleSearch={handleSearchUser}
+        handleLogout={handleLogout}
       />
       <Table
         title="Usuários"
@@ -105,6 +121,7 @@ function Home() {
         handleOpenModal={handleOpenModal}
         handleEdit={handleEditUser}
         handleDelete={handleDeleteUser}
+        isAdmin={userIsAdmin}
       />
       <Modal
         title="Cadastro de usuário"
